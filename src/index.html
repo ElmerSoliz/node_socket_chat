@@ -9,9 +9,30 @@
     
     <h1>SOCKETIO FRONTEND</h1>
     
+    <ul id="messages">
+    </ul>
+
+    <input type="text" id="message">
+    <button onclick="sendMessage()">Enviar Mensaje</button>
+
     <script src="/socket.io/socket.io.js"></script>
     <script>
         var socket = io();
-    </script>    
+
+        function sendMessage(){
+            //Para capturar del Html por Id
+            let myMessage = document.getElementById('message').value
+
+            // Paraemitir mensajes al servidor
+            socket.emit('my-chat', myMessage)
+        }
+
+        socket.on('my-chat', function(msg){
+            console.log(msg);
+            let val = document.getElementById('messages').innerHTML;
+            document.getElementById('messages').innerHTML = `${val}<li>${msg}</li>`;
+        })
+
+    </script>  
 </body>
 </html>

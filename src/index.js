@@ -17,6 +17,13 @@ app.get('/blog', function(req, res){
 //Conectando clientes con socket.io
 io.on("connection", function(socket){
     console.log('Un cliente conectado');
+
+    // Capturar el mensaje del cliente
+    socket.on('my-chat', (msg => {
+        console.log('Message: ', msg);
+        socket.broadcast.emit('my-chat', msg)
+    }))
+
     socket.on("disconnect", function(){
         console.log("Cliente desconectado...");
     })
